@@ -1,3 +1,5 @@
+name: telega
+
 services:
   webapi:
     image: telega-webapi
