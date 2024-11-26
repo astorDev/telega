@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Astor.Logging" Version="2024.106.109.27" />
+    <PackageReference Include="confi" Version="2024.110.108.4" />
+    <PackageReference Include="dotenv.net" Version="3.2.1" />
     <PackageReference Include="Fluenv" Version="2024.109.101.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Nist.Logs" Version="2024.106.109.28" />
@@ -24,5 +26,9 @@
     <Using Include="System.Reflection" />
     <Using Include="Microsoft.AspNetCore.Mvc" />
     <Using Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../.env" Condition="Exists('../.env')" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
 </Project>

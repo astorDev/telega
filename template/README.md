@@ -1,0 +1,3 @@
+## Installation
+
+Create `.env` file

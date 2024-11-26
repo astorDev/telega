@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     <PackageReference Include="Nist.Errors" Version="2024.106.106.23" />
     <PackageReference Include="Nist.Responses" Version="2024.111.124.28" />
+    <PackageReference Include="Telegram.Bot" Version="22.1.3" />
   </ItemGroup>
 
   

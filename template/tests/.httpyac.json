@@ -1,4 +1,5 @@
 {
+    "envDirName": "..",
     "environments": {
         "local" : {
             "host" : "http://localhost:65441"
