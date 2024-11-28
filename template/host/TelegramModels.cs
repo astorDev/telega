@@ -8,7 +8,6 @@ public record Response(
     public static implicit operator Response(string message) => new(message);
 }
 
-
 public record Context(
     long ChatId,
     string? TextMessage
