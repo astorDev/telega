@@ -1,3 +1,5 @@
+global using Telega.TelegramModels;
+global using MediatR;
 using Astor.Logging;
 using Scalar.AspNetCore;
 using Fluenv;
@@ -18,6 +20,13 @@ builder.Services.AddHttpClient<ITelegramBotClient, TelegramBotClient>(cl => {
     return new(token, cl);
 });
 
+builder.Services.AddPipeline<Context, IRequest<Response>>(o => o
+    .Add(Start.Recognize)
+    .Add(Unrecognized.Instance)
+);
+
+builder.Services.AddMediatR(m => m.RegisterServicesFromAssemblyContaining<Program>());
+
 builder.Logging.ClearProviders();
 builder.Logging.AddMiniJsonConsole();
 builder.Logging.AddSimpleConsole(c => c.SingleLine = true);
@@ -36,23 +45,23 @@ app.MapGet($"/{Uris.About}", async (IHostEnvironment env, ITelegramBotClient tel
     Description: "Telega",
     Version: typeof(Program).Assembly!.GetName().Version!.ToString(),
     Environment: env.EnvironmentName,
-    Dependencies: new Dictionary<string, object> {
+    Dependencies: new() {
         ["botClient"] = new { 
             connected = true,
-            username = (await telegramBotClient.GetMe())!.Username
+            username = (await telegramBotClient.GetMe()).Username
         }
     }
 ));
 
-app.MapPost($"/{Uris.Webhook}", async (Update update, ITelegramBotClient telegramBotClient) => {
-    var chatId = (update.Message?.Chat.Id) ?? throw new ("Chat ID is not found in the update.");
-    
-    var sent = await telegramBotClient.SendMessage(
-        chatId: chatId,
-        text: "I don't quite get you, I'm here just to say hello. Hello!"
-    );
+app.MapPost($"/{Uris.Webhook}", async (Update update, ITelegramBotClient telegramBotClient, Pipeline<Context, IRequest<Response>> pipeline, IMediator mediator) => {
+    var context = Context.From(update);
 
-    return sent;
+    var command = await pipeline.Process(context);
+    if (command == null) throw new("Unable to process the request");
+
+    var response = await mediator.Send(command);
+
+    return await telegramBotClient.Send(response, context);
 });
 
 app.Run();
