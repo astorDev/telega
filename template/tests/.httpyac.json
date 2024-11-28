@@ -2,7 +2,7 @@
     "envDirName": "..",
     "environments": {
         "local" : {
-            "host" : "http://localhost:65441"
+            "host" : "http://localhost:1111"
         }
     }
 }

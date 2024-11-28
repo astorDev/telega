@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telega.WebApi", "webapi\Telega.WebApi.csproj", "{99DD5F80-55DC-46EF-8EEA-EE0CF6E0F8D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telega.Host", "host\Telega.Host.csproj", "{99DD5F80-55DC-46EF-8EEA-EE0CF6E0F8D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telega.Protocol", "protocol\Telega.Protocol.csproj", "{BAF85A99-B09A-448C-BF7D-80AC4CD49DF5}"
 EndProject

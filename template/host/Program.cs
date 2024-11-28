@@ -22,8 +22,6 @@ builder.Logging.ClearProviders();
 builder.Logging.AddMiniJsonConsole();
 builder.Logging.AddSimpleConsole(c => c.SingleLine = true);
 
-builder.Host.UseContentRoot(Directory.GetCurrentDirectory());
-
 var app = builder.Build();
 
 app.MapOpenApi();

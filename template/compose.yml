@@ -1,12 +1,12 @@
 name: telega
 
 services:
-  webapi:
-    image: telega-webapi
+  host:
+    image: telega-host
     labels:
       - family=nist
     build:
       context: .
-      dockerfile: webapi/Dockerfile
+      dockerfile: host/Dockerfile
     ports:
-      - "65441:8080"
+      - "1111:8080"
