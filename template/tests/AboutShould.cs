@@ -10,13 +10,7 @@ public class AboutShould : Test
         about.Should().BeEquivalentTo(new About(
             "Telega",
             "1.0.0.0",
-            "Development",
-            new Dictionary<string, object> {
-                ["botClient"] = new { 
-                    connected = true,
-                    username = "TelegaBot"
-                }
-            }
+            "Development"
         ), but => but.Excluding(a => a.Dependencies));
     }
 }

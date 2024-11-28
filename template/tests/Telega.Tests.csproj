@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="8.3.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
@@ -29,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\webapi\Telega.WebApi.csproj" />
+    <ProjectReference Include="..\host\Telega.Host.csproj" />
   </ItemGroup>
 
 </Project>

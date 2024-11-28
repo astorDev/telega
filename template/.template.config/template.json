@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Astor",
+    "classifications": [ "WebApi", "Telegram", "Bot", "WebHooks" ], 
+    "name": "Telegram Bot Webhooks Minimal Web API",
+    "identity": "Telega",         
+    "shortName": "telega",
+    "tags": {
+      "language": "C#",
+      "type":"project"
+    },
+    "symbols": {
+      "port" : {
+        "type": "generated",    
+        "generator": "port",
+        "replaces": "1111",
+        "parameters": {
+          "fallback": 6000
+        }
+      }
+    },
+    "sourceName": "Telega",
+    "preferNameDirectory": true
+}

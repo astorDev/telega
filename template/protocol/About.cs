@@ -16,5 +16,5 @@ public record About(
     string Description, 
     string Version, 
     string Environment,
-    Dictionary<string, object> Dependencies
+    Dictionary<string, object>? Dependencies = null
 );
