@@ -8,10 +8,14 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using Confi;
 using dotenv.net;
+using Microsoft.Extensions.Hosting;
 
 DotEnv.Load(new(envFilePaths: [ ".env", "../.env"] ));
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddFluentEnvironmentVariables();
+
+builder.Services.AddScoped<UpdateProcessor>();
+builder.Services.AddLongPollingIfTurnedOn(builder.Configuration);
 
 builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.MaxDepth = 256);
 builder.Services.AddOpenApi();
@@ -57,16 +61,7 @@ app.MapGet($"/{Uris.About}", async (IHostEnvironment env, ITelegramBotClient tel
     }
 ));
 
-app.MapPost($"/{Uris.Webhook}", async (Update update, ITelegramBotClient telegramBotClient, Pipeline<Context, IRequest<Response>> pipeline, IMediator mediator) => {
-    var context = Context.From(update);
-
-    var command = await pipeline.Process(context);
-    if (command == null) throw new("Unable to process the request");
-
-    var response = await mediator.Send(command);
-
-    return await telegramBotClient.Send(response, context);
-});
+app.MapPost($"/{Uris.Webhook}", (Update update, UpdateProcessor processor) => processor.Search(update));
 
 app.Run();
 
