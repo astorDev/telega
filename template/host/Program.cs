@@ -1,10 +1,9 @@
-global using Telega.TelegramModels;
+global using Telega;
 global using MediatR;
 using Astor.Logging;
 using Scalar.AspNetCore;
 using Fluenv;
-using Nist.Logs;
-using Nist.Errors;
+using Nist;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using Confi;
@@ -14,9 +13,10 @@ DotEnv.Load(new(envFilePaths: [ ".env", "../.env"] ));
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddFluentEnvironmentVariables();
 
+builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.MaxDepth = 256);
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient<ITelegramBotClient, TelegramBotClient>(cl => {
-    var token = builder.Configuration.GetRequiredValue("Telegram:Token");
+    var token = builder.Configuration.GetRequiredValue("Bot:Token");
     return new(token, cl);
 });
 
@@ -36,7 +36,11 @@ var app = builder.Build();
 app.MapOpenApi();
 app.MapScalarApiReference(s => s.WithTheme(ScalarTheme.DeepSpace));
 
-app.UseHttpIOLogging(l => l.Message = HttpIOMessagesRegistry.DefaultWithJsonBodies);
+var loggingSettings = new HttpIOLoggingSettings { Message = HttpIOMessagesRegistry.DefaultWithJsonBodies };
+app.UseMiddleware<RequestBodyStringReader>();
+app.UseMiddleware<HttpIOLoggingMiddleware>(loggingSettings);
+app.UseElapsed();
+app.UseMiddleware<ResponseBodyStringReader>();
 app.UseErrorBody(ex => ex switch {
     _ => Errors.Unknown
 });
@@ -47,8 +51,8 @@ app.MapGet($"/{Uris.About}", async (IHostEnvironment env, ITelegramBotClient tel
     Environment: env.EnvironmentName,
     Dependencies: new() {
         ["botClient"] = new { 
-            connected = true,
-            username = (await telegramBotClient.GetMe()).Username
+            resolved = true,
+            getMe = await telegramBotClient.GetMe()
         }
     }
 ));
