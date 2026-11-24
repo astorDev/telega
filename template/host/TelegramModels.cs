@@ -1,6 +1,6 @@
 using Telegram.Bot;
 
-namespace Telega.TelegramModels;
+namespace Telega;
 
 public record Response(
     string MessageText

@@ -1,0 +1,15 @@
+@host = https://api.telegram.org/bot{{ BOT_TOKEN}}
+
+###
+# @name updates
+@offset = {{ $input offset $value:1 }}
+/getUpdates?offset={{ offset }}
+
+###
+# @ref updates
+/sendMessage
+
+{
+    "chat_id": "{{ updates.result[0].message.chat.id }}",
+    "text": "Received: {{ updates.result[0].message.text }}"
+}
