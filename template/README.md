@@ -9,7 +9,7 @@ BOT_TOKEN=Your-Telegram-Token
 
 MediatR 15 supports a license key through the `MEDIATR_LICENSE_KEY` environment variable. See [MediatR's licensing information](https://mediatr.io/) for the applicable terms.
 
-3. (Optional) Point Telegram webhooks to your machine.
+3. The template uses long polling by default. To use webhooks instead, set `Mode` to `Webhooks` in `host/appsettings.json` and point Telegram webhooks to your machine.
 
 There's a helper [tests/set-webhook.http](./tests/set-webhook.http) file with the configuration request. To receive Telegram updates locally, you'll need an HTTPS address for your machine. You can get one from tools like ngrok. After starting an ngrok instance, set the received URL in the `.env` file.
 
